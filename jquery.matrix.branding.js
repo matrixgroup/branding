@@ -47,7 +47,7 @@
 		wrapSlides: function() {
 			var self = this;
 
-			self.$elem.children().wrapAll($('<div/>', { "class": "slides-container" }));
+			self.$elem.children().addClass("slide").wrapAll($('<div/>', { "class": "slides-container" }));
 		},
 
 		selectInitialSlide: function() {
