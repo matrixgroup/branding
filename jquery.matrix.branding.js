@@ -2,7 +2,7 @@
  *
  *	Matrix Group Branding Area jQuery Plugin
  *	Author: Roger Vandawalker <rvandawalker@matrixgroup.net>, @rjv
- *	Version: 1.0
+ *	Version: 1.1.0
  *
  *	Dependencies: jQuery 1.4+ (http://jquery.com)
  *	Supports: IE7+, Chrome, Safari, Firefox 3.6+
@@ -16,7 +16,17 @@
 ;(function( $, window, document, undefined ) {
 	var Branding = {
 
-		init: function( options, elem ) {
+		_classes: {
+			slide: 'slide',
+			element: 'mtx-branding',
+			container: 'slides-container',
+			indicators: 'slide-indicators',
+			background: 'slide-background',
+			thumbnails: 'slide-thumbnails',
+			thumbnail: 'slide-thumbnail'
+		},
+
+		_init: function( options, elem ) {
 			var self = this;
 
 			self.elem = elem;
@@ -24,7 +34,7 @@
 
 			self.options = $.extend( {}, $.fn.matrixBranding.options, options );
 
-			self.$elem.addClass("mtx-branding");
+			self.$elem.addClass(self._classes.element);
 			self.wrapSlides();
 
 			if ( self.getSlideCount() > 1 ) { // only append slide navigation if there is more than one slide
@@ -33,6 +43,10 @@
 
 			if ( self.options.showSlideIndicators && self.getSlideCount() > 1 ) { // only append slide
 				self.appendSlideIndicators();
+			}
+
+			if ( self.options.showSlideThumbnails && self.getSlideCount() > 1 ) {
+				self.appendThumbnails();
 			}
 
 			self.selectInitialSlide();
@@ -47,7 +61,7 @@
 		wrapSlides: function() {
 			var self = this;
 
-			self.$elem.children().addClass("slide").wrapAll($('<div/>', { "class": "slides-container" }));
+			self.$elem.children().addClass(self._classes.slide).wrapAll($('<div/>', { "class": self._classes.container }));
 		},
 
 		selectInitialSlide: function() {
@@ -58,7 +72,7 @@
 				slideNumber = Math.floor(Math.random() * self.getSlideCount());
 			}
 
-			self.showSlide(self.$elem.find(".slide").eq(slideNumber));
+			self.showSlide(self.$elem.find("."+self._classes.slide).eq(slideNumber));
 		},
 
 		appendSlideNavigation: function() {
@@ -123,8 +137,8 @@
 
 		appendSlideIndicators: function() {
 			var self = this,
-					$indicators = $('<ul/>', { "class": "slide-indicators" }),
-					$slides = self.$elem.find(".slide");
+					$indicators = $('<ul/>', { "class": self._classes.indicators }),
+					$slides = self.$elem.find("."+self._classes.slide);
 
 			$slides.each( function(i) {
 				$('<a>',
@@ -147,29 +161,82 @@
 			$indicators.appendTo(self.$elem);
 		},
 
+		appendThumbnails: function() {
+			var thumbnailSrc,
+					self = this,
+					$thumbnails = self.options.assignThumbnailsContainer != null
+						? self.options.assignThumbnailsContainer.addClass(self._classes.thumbnails)
+						: $('<div/>', { "class": self._classes.thumbnails }),
+					$slides = self.$elem.find("."+self._classes.slide);
+
+			$thumbnails.data( "thumbs", { "width": 0, "count": 0 } ); // set the default width to 0
+
+			$slides.each( function(i) {
+
+				// check to see if the slide has a pre-set thumbnail image
+				// if not, use the slide background image
+				thumbnailSrc = $(this).find("img."+self._classes.thumbnail).length === 1
+					? $(this).find("img."+self._classes.thumbnail).eq(0).attr("src")
+					: $(this).find("img."+self._classes.background).attr("src");
+
+				$('<img/>',
+					{
+						src: thumbnailSrc,
+						click: function() {
+							if ( self.options.pauseOnClick ) {
+								self.pauseSlideshow();
+							}
+							self.showSlide( $slides.eq($(this).index()) );
+						},
+						load: function() {
+							$thumbnails.data( 'thumbs', {
+								"width": $thumbnails.data("thumbs").width + $(this).outerWidth() + Number($(this).css("margin-left").replace("px","")),
+								"count": $thumbnails.data("thumbs").count + 1
+							});
+
+							if ( $thumbnails.data('thumbs').count === self.getSlideCount() ){
+								$thumbnails.children("div").css({
+									width: $thumbnails.data('thumbs').width
+								});
+							}
+						}
+					}
+				).appendTo($thumbnails);
+
+			});
+
+			$thumbnails.children().wrapAll('<div/>');
+
+			if ( self.options.assignThumbnailsContainer === null ){
+				$thumbnails.insertAfter(self.$elem);
+			}
+
+			self.options.assignThumbnailsContainer = $thumbnails;
+		},
+
 		showNextSlide: function() {
 			var self = this,
-					$slides = self.$elem.find(".slide"),
+					$slides = self.$elem.find("."+self._classes.slide),
 					$current = $slides.filter("."+self.options.selectedSlideClass);
 
 			if ( ($current.index() + 1) % $slides.length === 0 ) {
 				// the last slide has been reached; jump to first slide
 				self.showSlide($slides.first());
 			} else {
-				self.showSlide($current.next(".slide"));
+				self.showSlide($current.next("."+self._classes.slide));
 			}
 		},
 
 		showPreviousSlide: function() {
 			var self = this,
-					$slides = self.$elem.find(".slide"),
+					$slides = self.$elem.find("."+self._classes.slide),
 					$current = $slides.filter("."+self.options.selectedSlideClass);
 
 			if ( $current.index() === 0 ) {
 				// we're at the first slide; jump to last slide
 				self.showSlide($slides.last());
 			} else {
-				self.showSlide($current.prev(".slide"));
+				self.showSlide($current.prev("."+self._classes.slide));
 			}
 		},
 
@@ -181,6 +248,7 @@
 				.siblings().removeClass(self.options.selectedSlideClass).fadeOut(self.options.transitionDuration);
 
 			self.showSlideIndicator($slide);
+			self.showSlideThumbnail($slide);
 		},
 
 		showSlideIndicator: function( $slide ) {
@@ -188,8 +256,50 @@
 					index = $slide.index();
 
 			if ( self.options.showSlideIndicators ) {
-				self.$elem.find(".slide-indicators").children().eq(index).addClass(self.options.selectedSlideClass)
+				self.$elem.find("."+self._classes.indicators).children().eq(index).addClass(self.options.selectedSlideClass)
 					.siblings().removeClass(self.options.selectedSlideClass);
+			}
+		},
+
+		showSlideThumbnail: function ( $slide ) {
+			var self = this,
+					index = $slide.index(),
+					$thumbContainer = self.options.assignThumbnailsContainer, // self.$elem.next("."+self._classes.thumbnails),
+					$thumb = $thumbContainer.find("img").eq(index);
+
+			if ( self.options.showSlideThumbnails ) {
+				$thumb.addClass(self.options.selectedSlideClass)
+					.siblings().removeClass(self.options.selectedSlideClass);
+
+				self.slideToThumbnail( $thumbContainer, $thumb );
+			}
+		},
+
+		slideToThumbnail: function ( $thumbContainer, $thumb ) {
+			var	self = this,
+					leftScrollTo = -1,
+					topScrollTo = -1,
+					thumbPos = $thumb.position(),
+					thumbWidth = $thumb.outerWidth(),
+					thumbHeight = $thumb.outerHeight(),
+					containerWidth = $thumbContainer.outerWidth(),
+					containerHeight = $thumbContainer.outerHeight();
+
+			if ( ((thumbWidth + thumbPos.left) > (containerWidth + $thumbContainer.scrollLeft()))
+					 || ($thumbContainer.scrollLeft() > thumbPos.left) ){
+				leftScrollTo = thumbPos.left;
+			}
+
+			if ( ((thumbHeight + thumbPos.top) > (containerHeight + $thumbContainer.scrollTop()))
+					 || ($thumbContainer.scrollTop() > thumbPos.top) ){
+				topScrollTo = thumbPos.top;
+			}
+
+			if ( leftScrollTo > -1 || topScrollTo > -1 ){
+				$thumbContainer.animate({
+					scrollLeft: leftScrollTo < 0 ? 0 : leftScrollTo,
+					scrollTop: topScrollTo < 0 ? 0 : topScrollTo
+				}, self.options.transitionDuration);
 			}
 		},
 
@@ -210,7 +320,7 @@
 
 		getSlideCount: function() {
 			var self = this,
-					$slides = self.$elem.find(".slide");
+					$slides = self.$elem.find("."+self._classes.slide);
 
 			return $slides.length;
 		}
@@ -221,7 +331,7 @@
 		return this.each(function() {
 
 			var branding = Object.create( Branding );
-			branding.init( options, this );
+			branding._init( options, this );
 
 		});
 	};
@@ -237,10 +347,12 @@
 		autoPlay: true,									// set to false to prevent an automatic slideshow
 		pauseOnClick: true,							// set to false to prevent pausing the slideshow on clicking slide navigation
 		showSlideIndicators: false,			// set to true to automatically add a slide navigation list
+		showSlideThumbnails: false,
+		assignThumbnailsContainer: null,
 		initialSlide: 1,								// explictly set a slide to show first
 		startWithRandomSlide: false,		// set to true for a random initial slide
-		assignNextNavigation: '',				// a jquery object to be binded as slide navigation
-		assignPreviousNavigation: ''		// a jquery object to be binded as slide navigation
+		assignNextNavigation: null,				// a jquery object to be binded as slide navigation
+		assignPreviousNavigation: null		// a jquery object to be binded as slide navigation
 	};
 })( jQuery, window, document );
 
