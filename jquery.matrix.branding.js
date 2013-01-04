@@ -2,7 +2,7 @@
  *
  *	Matrix Group Branding Area jQuery Plugin
  *	Author: Roger Vandawalker <rvandawalker@matrixgroup.net>, @rjv
- *	Version: 1.1.0
+ *	Version: 1.0
  *
  *	Dependencies: jQuery 1.4+ (http://jquery.com)
  *	Supports: IE7+, Chrome, Safari, Firefox 3.6+
@@ -247,8 +247,13 @@
 			$slide.addClass(self.options.selectedSlideClass).fadeIn(self.options.transitionDuration)
 				.siblings().removeClass(self.options.selectedSlideClass).fadeOut(self.options.transitionDuration);
 
-			self.showSlideIndicator($slide);
-			self.showSlideThumbnail($slide);
+			if ( self.options.showSlideIndicators ) {
+				self.showSlideIndicator($slide);
+			}
+
+			if ( self.options.showSlideThumbnails ) {
+				self.showSlideThumbnail($slide);
+			}
 		},
 
 		showSlideIndicator: function( $slide ) {
