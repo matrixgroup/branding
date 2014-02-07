@@ -144,7 +144,7 @@
 				$('<a>',
 					{
 						text: (i+1),
-						href: '#',
+						href: 'javascript:void(0);',
 						click: function() {
 							var $li = $(this).parent();
 
