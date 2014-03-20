@@ -1,3 +1,4 @@
+
 /**
  *
  *	Matrix Group Branding Area jQuery Plugin
@@ -169,7 +170,30 @@
 						: $('<div/>', { "class": self._classes.thumbnails }),
 					$slides = self.$elem.find("."+self._classes.slide);
 
-			$thumbnails.data( "thumbs", { "width": 0, "count": 0 } ); // set the default width to 0
+
+			// recalculate the container width after all the images have loaded
+			$(window).load(function(){
+				$(window).trigger("resize");
+			}).resize(function(){
+				// if ($thumbnails.data('thumbs') !== undefined) { return; }
+				$thumbnails.data( "thumbs", { "width": 0, "count": 0 } ); // set the default width to 0
+				$thumbnails.find(".thumb").each(function(){
+
+					$thumbnails.data( 'thumbs', {
+						"width": $thumbnails.data("thumbs").width + $(this).outerWidth() + Number($(this).css("margin-left").replace("px","")),
+						"count": $thumbnails.data("thumbs").count + 1
+					});
+
+				});
+
+        var newWidth = Math.ceil($thumbnails.data('thumbs').width) + 1;
+        // alert(newWidth);
+
+        $thumbnails.children("div").css({
+          // round up the width and add 1px in order to account for improper subpixel rendering in IE<9
+					width: newWidth
+				});
+			});
 
 			$slides.each( function(i) {
 
@@ -179,29 +203,24 @@
 					? $(this).find("img."+self._classes.thumbnail).eq(0).attr("src")
 					: $(this).find("img."+self._classes.background).attr("src");
 
-				$('<img/>',
-					{
-						src: thumbnailSrc,
-						click: function() {
-							if ( self.options.pauseOnClick ) {
-								self.pauseSlideshow();
-							}
-							self.showSlide( $slides.eq($(this).index()) );
-						},
-						load: function() {
-							$thumbnails.data( 'thumbs', {
-								"width": $thumbnails.data("thumbs").width + $(this).outerWidth() + Number($(this).css("margin-left").replace("px","")),
-								"count": $thumbnails.data("thumbs").count + 1
-							});
+				$theThumbnail = $(this).find("img."+self._classes.thumbnail).length === 1
+					? $(this).find("img."+self._classes.thumbnail).eq(0)
+					: $(this).find("img."+self._classes.background);
 
-							if ( $thumbnails.data('thumbs').count === self.getSlideCount() ){
-								$thumbnails.children("div").css({
-									width: $thumbnails.data('thumbs').width
-								});
-							}
+				var $newThumb = $("<span/>",
+				{
+					"class": "thumb",
+					click: function() {
+						if ( self.options.pauseOnClick ) {
+							self.pauseSlideshow();
 						}
+						self.showSlide( $slides.eq($(this).index()) );
 					}
-				).appendTo($thumbnails);
+				});
+
+				$theThumbnail.clone().removeClass("slide-background").removeAttr("id").appendTo($newThumb);
+
+				$newThumb.appendTo($thumbnails);
 
 			});
 
@@ -229,8 +248,8 @@
 
 		showPreviousSlide: function() {
 			var self = this,
-					$slides = self.$elem.find("."+self._classes.slide),
-					$current = $slides.filter("."+self.options.selectedSlideClass);
+				$slides = self.$elem.find("."+self._classes.slide),
+				$current = $slides.filter("."+self.options.selectedSlideClass);
 
 			if ( $current.index() === 0 ) {
 				// we're at the first slide; jump to last slide
@@ -242,7 +261,7 @@
 
 		showSlide: function( $slide ) {
 			var self = this,
-					index = $slide.index();
+				index = $slide.index();
 
 			$slide.addClass(self.options.selectedSlideClass).fadeIn(self.options.transitionDuration)
 				.siblings().removeClass(self.options.selectedSlideClass).fadeOut(self.options.transitionDuration);
@@ -258,7 +277,7 @@
 
 		showSlideIndicator: function( $slide ) {
 			var self = this,
-					index = $slide.index();
+				index = $slide.index();
 
 			if ( self.options.showSlideIndicators ) {
 				self.$elem.find("."+self._classes.indicators).children().eq(index).addClass(self.options.selectedSlideClass)
@@ -268,9 +287,9 @@
 
 		showSlideThumbnail: function ( $slide ) {
 			var self = this,
-					index = $slide.index(),
-					$thumbContainer = self.options.assignThumbnailsContainer, // self.$elem.next("."+self._classes.thumbnails),
-					$thumb = $thumbContainer.find("img").eq(index);
+				index = $slide.index(),
+				$thumbContainer = self.options.assignThumbnailsContainer, // self.$elem.next("."+self._classes.thumbnails),
+				$thumb = $thumbContainer.find(".thumb").eq(index);
 
 			if ( self.options.showSlideThumbnails ) {
 				$thumb.addClass(self.options.selectedSlideClass)
@@ -281,14 +300,14 @@
 		},
 
 		slideToThumbnail: function ( $thumbContainer, $thumb ) {
-			var	self = this,
-					leftScrollTo = -1,
-					topScrollTo = -1,
-					thumbPos = $thumb.position(),
-					thumbWidth = $thumb.outerWidth(),
-					thumbHeight = $thumb.outerHeight(),
-					containerWidth = $thumbContainer.outerWidth(),
-					containerHeight = $thumbContainer.outerHeight();
+			var self = this,
+				leftScrollTo = -1,
+				topScrollTo = -1,
+				thumbPos = $thumb.position(),
+				thumbWidth = $thumb.outerWidth(),
+				thumbHeight = $thumb.outerHeight(),
+				containerWidth = $thumbContainer.outerWidth(),
+				containerHeight = $thumbContainer.outerHeight();
 
 			if ( ((thumbWidth + thumbPos.left) > (containerWidth + $thumbContainer.scrollLeft()))
 					 || ($thumbContainer.scrollLeft() > thumbPos.left) ){
@@ -347,8 +366,8 @@
 		nextButtonText: '&rarr;',				// text for the auto-generated "next" button
 		previousButtonText: '&larr;',		// text for the auto-generated "previous" button
 		selectedSlideClass: 'current',	// class name applied to the visible slide
-		transitionDuration: 400,				// number in ms for how long a slide transition should be
-		slideDuration: 6000,						// number in ms for how long a slide should show
+		transitionDuration: 800,				// number in ms for how long a slide transition should be
+		slideDuration: 7000,						// number in ms for how long a slide should show
 		autoPlay: true,									// set to false to prevent an automatic slideshow
 		pauseOnClick: true,							// set to false to prevent pausing the slideshow on clicking slide navigation
 		showSlideIndicators: false,			// set to true to automatically add a slide navigation list
