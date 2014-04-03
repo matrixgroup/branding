@@ -2,7 +2,7 @@
  *
  *  Matrix Group Branding Area jQuery Plugin
  *  Author: Roger Vandawalker <rvandawalker@matrixgroup.net>, @rjv
- *  Version: 1.1.1
+ *  Version: 1.1.2
  *
  *  Dependencies: jQuery 1.4+ (http://jquery.com)
  *  Supports: IE7+, Chrome, Safari, Firefox 3.6+
@@ -45,7 +45,7 @@
         self.appendSlideIndicators();
       }
 
-      if ( self.options.showSlideThumbnails && self.getSlideCount() > 1 ) {
+      if ( self.options.showSlideThumbnails ) {
         self.appendThumbnails();
       }
 
