@@ -51,7 +51,7 @@
 
       self.selectInitialSlide();
 
-      if ( self.options.autoPlay ) {
+      if ( self.options.autoPlay && self.getSlideCount() > 1 ) {
         self.showTimer = setTimeout(function() {
           self.playSlideshow();
         }, self.options.slideDuration);
