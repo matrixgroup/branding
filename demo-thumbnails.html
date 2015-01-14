@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Branding demo with thumbnails</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/jquery.matrix.branding.css">
+        <style type="text/css">
+            .container { width: 80%; margin: 3em auto; max-width: 600px; }
+        </style>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+
+    <div class="container">
+        <div id="branding">
+            <div>
+                <img src="http://placekitten.com/1000/800" alt="" class="slide-background">
+                <div class="slide-content">first slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/900/700" alt="" class="slide-background">
+                <div class="slide-content">second slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/800/600" alt="" class="slide-background">
+                <div class="slide-content">third slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/700/500" alt="" class="slide-background">
+                <div class="slide-content">fourth slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/1000/800" alt="" class="slide-background">
+                <div class="slide-content">fifth slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/900/700" alt="" class="slide-background">
+                <div class="slide-content">sixth slide</div>
+            </div>
+            <div>
+                <img src="http://placekitten.com/800/600" alt="" class="slide-background">
+                <div class="slide-content">seventh slide</div>
+            </div>
+        </div>
+
+        <p><a href="./">&larr; Back to documentation</a></p>
+    </div>
+
+    <div id="my-thumbnails"></div>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script type="text/javascript" src="js/jquery.matrix.branding.js"></script>
+        <script type="text/javascript">
+        $(function(){
+          $("#branding").matrixBranding({
+          	showSlideThumbnails: true,
+          	showSlideIndicators: true,
+            assignThumbnailsContainer: $('#my-thumbnails')
+          });
+        });
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Branding Area by Matrix Group documentation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jquery.matrix.branding.css">
+    <link rel="stylesheet" href="google-code-prettify/prettify.css">
+    <style type="text/css">
+      a:visited,
+      a:link {
+        color: #4C892B;
+      }
+      .container {
+        width: 80%;
+        max-width: 1000px;
+        margin: auto;
+      }
+      #header {
+        overflow: hidden;
+        background: #622C86;
+        color: #fff;
+        padding-bottom: 1em;
+      }
+      #footer {
+        overflow: hidden;
+        background: #f0f0f0;
+        color: #000;
+        font-size: .9em;
+        margin-top: 2em;
+        padding: 1em 0;
+        border-top: 1px solid #ddd;
+      }
+      .code {
+        font-size: .7em;
+        font-family: 'Lucida Console', 'Monaco', monospace;
+        background-color: #f0f0f0;
+        padding: 1em;
+        border-radius: 3px;
+        overflow-x: auto;
+      }
+      .sep {
+        text-align: center;
+        color: #4C892B;
+        font-size: 1.3em;
+      }
+      .expand-all {
+        float: right;
+        margin-left: 2em;
+        margin-bottom: 1em;
+      }
+      .toggle-details {
+        font-weight: bold;
+      }
+      .options {
+        list-style: none;
+        margin: 0;
+        padding: .5em 0 0 0;
+        overflow: hidden;
+        border-top: 1px solid #ddd;
+      }
+      .options li {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: .5em;
+        margin-bottom: .5em;
+        overflow: hidden;
+      }
+      .type {
+        float: right;
+        text-align: right;
+      }
+      .details {
+        margin-top: 1em;
+        clear: both;
+        overflow: hidden;
+        display: none;
+      }
+      #branding-container {
+        width: 90%;
+        margin: auto;
+      }
+      #branding {
+        margin: 2em auto 0;
+      }
+      #branding .slide-indicators a {
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.7);
+        font-size: .7em;
+        text-indent: -999px;
+        width: 5px;
+      }
+    </style>
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+
+<div id="header">
+  <div class="container">
+    <h1>Branding Area <small style="font-size:.6em;">by Matrix Group</small></h1>
+    <p>A jQuery plugin that makes implementing a slideshow branding area quick and painless. It was <strong>built to work seamlessly with your responsive designs</strong>.</p>
+  </div>
+</div>
+
+<div class="container">
+
+    <div id="branding-container">
+      <div id="branding">
+          <div>
+              <img src="http://placekitten.com/1000/800" alt="" class="slide-background">
+              <div class="slide-content">first slide</div>
+          </div>
+          <div>
+              <img src="http://placekitten.com/900/700" alt="" class="slide-background">
+              <div class="slide-content">second slide</div>
+          </div>
+          <div>
+              <img src="http://placekitten.com/800/600" alt="" class="slide-background">
+              <div class="slide-content">third slide</div>
+          </div>
+          <div>
+              <img src="http://placekitten.com/700/500" alt="" class="slide-background">
+              <div class="slide-content">fourth slide</div>
+          </div>
+      </div>
+    </div>
+
+    <p class="sep">&diams; &diams; &diams;</p>
+
+    <h2>Quick Start: Three Simple Steps</h2>
+
+    <h3>1. Include the jQuery and plugin files</h3>
+
+    <p><a href="https://github.com/matrixgroup/branding/archive/master.zip" class="btn">Download the plugin</a> and replace any instances of <strong>/path/to/</strong> in the snippet below with what is appropriate for your hosting environment.</p>
+
+<pre class="code prettyprint lang-html">
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/jquery.matrix.branding.css&quot;&gt;
+&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/path/to/jquery.matrix.branding.js&quot;&gt;&lt;/script&gt;
+</pre>
+
+    <h3>2. Write/generate your markup</h3>
+
+    <p>You must have one container element per slideshow. Within that element, there should be a DIV for every slide. The slide should contain an image for the background (assigned via the <strong>slide-background</strong> class) and a DIV for the optional slide content (assigned via the <strong>slide-content</strong> class).</p>
+
+<pre class="code prettyprint lang-html">
+&lt;div id=&quot;branding&quot;&gt;
+  &lt;div&gt;
+    &lt;img src=&quot;image1.jpg&quot; alt=&quot;&quot; class=&quot;slide-background&quot;&gt;
+    &lt;div class=&quot;slide-content&quot;&gt;first slide&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;img src=&quot;image2.jpg&quot; alt=&quot;&quot; class=&quot;slide-background&quot;&gt;
+    &lt;div class=&quot;slide-content&quot;&gt;second slide&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;img src=&quot;image3.jpg&quot; alt=&quot;&quot; class=&quot;slide-background&quot;&gt;
+    &lt;div class=&quot;slide-content&quot;&gt;third slide&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+
+    <h3>3. Initiate the branding area plugin</h3>
+
+    <p>This snippet should go right before your closing &lt;/body&gt; tag.</p>
+
+<pre class="code prettyprint lang-html">
+&lt;script&gt;
+  $(function(){
+    $(&quot;#branding&quot;).matrixBranding();
+  });
+&lt;/script&gt;
+</pre>
+
+    <p class="sep">&diams; &diams; &diams;</p>
+
+    <h2>Demos</h2>
+
+    <ul>
+      <li><a href="demo.html">Branding area with slide indicators</a></li>
+      <li><a href="demo-thumbnails.html">Branding area with slide thumbnails</a></li>
+    </ul>
+
+    <p class="sep">&diams; &diams; &diams;</p>
+
+    <h2>Options</h2>
+
+    <p><a href="javascript:void(0);" class="expand-all">Expand All</a></p>
+    <p>The Branding Area plugin is built to look and function great without any additional configuration. If you'd like to customize a few things, the following options are available:</p>
+
+    <ul class="options">
+      <li><a href="javascript:void(0);" class="toggle-details">nextButtonClass</a>
+        <div class="type">
+          <strong>Type:</strong> String<br>
+          <small>Default: 'next'</small>
+        </div>
+        <div class="details">
+          <p>The class name that will be applied to an auto-generated "next slide" button.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">previousButtonClass</a>
+        <div class="type">
+          <strong>Type:</strong> String<br>
+          <small>Default: 'prev'</small>
+        </div>
+        <div class="details">
+          <p>The class name that will be applied to an auto-generated "previous slide" button.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">nextButtonText</a>
+        <div class="type">
+          <strong>Type:</strong> String<br>
+          <small>Default: '&rarr;'</small>
+        </div>
+        <div class="details">
+          <p>The text that will be displayed in the auto-generated "next slide" button.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">previousButtonText</a>
+        <div class="type">
+          <strong>Type:</strong> String<br>
+          <small>Default: '&larr;'</small>
+        </div>
+        <div class="details">
+          <p>The text that will be displayed in the auto-generated "previous slide" button.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">selectedSlideClass</a>
+        <div class="type">
+          <strong>Type:</strong> String<br>
+          <small>Default: 'current'</small>
+        </div>
+        <div class="details">
+          <p>The class name that will be applied to the currently visible slide (and slide indicator).</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">transitionDuration</a>
+        <div class="type">
+          <strong>Type:</strong> Number<br>
+          <small>Default: 400</small>
+        </div>
+        <div class="details">
+          <p>The time (in milliseconds) in which the currently visible slide takes to crossfade into the next slide.</p>
+          <pre class="code prettyprint lang-js">
+$("#branding").matrixBranding({
+  transitionDuration: 400
+});
+</pre>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">slideDuration</a>
+        <div class="type">
+          <strong>Type:</strong> Number<br>
+          <small>Default: 6000</small>
+        </div>
+        <div class="details">
+          <p>The time (in millseconds) a slide remains visible before the next slide fades in. This works in conjunction with the <em>autoPlay</em> option.</p>
+          <pre class="code prettyprint lang-js">
+$("#branding").matrixBranding({
+  slideDuration: 6000
+});
+</pre>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">autoPlay</a>
+        <div class="type">
+          <strong>Type:</strong> Boolean<br>
+          <small>Default: true</small>
+        </div>
+        <div class="details">
+          <p>If set to <em>true</em>, an automatic slideshow will begin upon initialization of the plugin.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">pauseOnClick</a>
+        <div class="type">
+          <strong>Type:</strong> Boolean<br>
+          <small>Default: true</small>
+        </div>
+        <div class="details">
+          <p>If set to <em>true</em>, an automatic slideshow will be immediately paused when a user clicks the slide navigation buttons or slide indicators.</p>
+        </div>
+      </li>
+
+      <li><a href="javascript:void(0);" class="toggle-details">showSlideIndicators</a>
+        <div class="type">
+          <strong>Type:</strong> Boolean<br>
+          <small>Default: false</small>
+        </div>
+        <div class="details">
+          <p>If set to <em>true</em>, a simple numeric list of slide indicators will be added above the slides.</p>
+        </div>
+      </li>
+
+      <li><a href="javascript:void(0);" class="toggle-details">showSlideThumbnails</a>
+        <div class="type">
+          <strong>Type:</strong> Boolean<br>
+          <small>Default: false</small>
+        </div>
+        <div class="details">
+          <p>If set to <em>true</em>, slide thumbnails will be generated and appended to a thumbnails container (generated automatically). By default, the thumbnail will be a scaled-down version of the
+            slide-background image unless an image with a class of <strong>slide-thumbnail</strong> is also included within the slide.</p>
+          <p>For example:</p>
+<pre class="code prettyprint lang-html">
+&lt;div id="branding"&gt;
+    &lt;div&gt;
+        &lt;!-- this slide will use the .slide-background image as the thumbnail --&gt;
+        &lt;img src="http://placekitten.com/1000/800" alt="" class="slide-background"&gt;
+        &lt;div class="slide-content"&gt;first slide&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;!-- this slide will use the .slide-thumbnail image as the thumbnail --&gt;
+        &lt;img src="http://placekitten.com/900/700" alt="" class="slide-background"&gt;
+        &lt;img src="http://placekitten.com/50/50" alt="" class="slide-thumbnail"&gt;
+        &lt;div class="slide-content"&gt;second slide&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+        </div>
+      </li>
+
+      <li><a href="javascript:void(0);" class="toggle-details">assignThumbnailsContainer</a>
+        <div class="type">
+          <strong>Type:</strong> jQuery Object<br>
+          <small>Default: null</small>
+        </div>
+        <div class="details">
+          <p>If a jQuery Object is provided for this option, all thumbnails will be appended to the object rather than being automatically generated.</p>
+<pre class="code prettyprint lang-js">
+$("#branding").matrixBranding({
+  assignThumbnailsContainer: $("#my-thumbnail-container")
+});
+</pre>
+        </div>
+      </li>
+
+      <li><a href="javascript:void(0);" class="toggle-details">initialSlide</a>
+        <div class="type">
+          <strong>Type:</strong> Number<br>
+          <small>Default: 1</small>
+        </div>
+        <div class="details">
+          <p>A number that specifies which slide should be visible upon initialization of the plugin. The first slide can be identified by the number 1, second slide by 2, etc.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">startWithRandomSlide</a>
+        <div class="type">
+          <strong>Type:</strong> Boolean<br>
+          <small>Default: false</small>
+        </div>
+        <div class="details">
+          <p>If set to <em>true</em>, a slide will be chosen at random to display first when the plugin is initialized.</p>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">assignNextNavigation</a>
+        <div class="type">
+          <strong>Type:</strong> jQuery Object<br>
+          <small>Default: null</small>
+        </div>
+        <div class="details">
+          <p>If a jQuery Object is provided for this option, it will bind the "show next slide" event to it. This is to be used in place of having a "next slide" button automatically generated.</p>
+<pre class="code prettyprint lang-js">
+$("#branding").matrixBranding({
+  assignNextNavigation: $("#my-next-button")
+});
+</pre>
+        </div>
+      </li>
+      <li><a href="javascript:void(0);" class="toggle-details">assignPreviousNavigation</a>
+        <div class="type">
+          <strong>Type:</strong> jQuery Object<br>
+          <small>Default: null</small>
+        </div>
+        <div class="details">
+          <p>If a jQuery Object is provided for this option, it will bind the "show previous slide" event to it. This is to be used in place of having a "previous slide" button automatically generated.</p>
+<pre class="code prettyprint lang-js">
+$("#branding").matrixBranding({
+  assignPreviousNavigation: $("#my-next-button")
+});
+</pre>
+        </div>
+      </li>
+    </ul>
+
+    <h2>GitHub</h2>
+
+    <p>This project is hosted and maintained on <a href="https://github.com/matrixgroup/branding">GitHub</a> for you to use and abuse.</p>
+</div>
+
+<div id="footer">
+  <div class="container">
+    <p>Copyright &copy; 2013 <a href="http://matrixgroup.net">Matrix Group International</a><br>
+      Plugin released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a></p>
+    <p>Current release: 1.1.0</p>
+    <p>Authored by <a href="http://twitter.com/rjv">Roger Vandawalker</a></p>
+  </div>
+</div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+  <script type="text/javascript" src="js/jquery.matrix.branding.js"></script>
+  <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    $("#branding").matrixBranding({
+      showSlideIndicators: true
+    });
+    $(".options").on("click",".toggle-details",function(){
+      $(this).nextAll(".details").toggle();
+    });
+    $(".expand-all").on("click",function(){
+      $(".options .details").show();
+    });
+    prettyPrint();
+  });
+  </script>
+
+</body>
+</html>
