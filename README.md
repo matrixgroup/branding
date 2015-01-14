@@ -47,4 +47,4 @@ This snippet should go right before your closing `</body>` tag.
 </script>
 ```
 
-For more information and options, view the [documentation](http://demonstration.dev.matrixgroup.net/branding/).
+For more information and options, view the [documentation](http://matrixgroup.github.io/branding/).
